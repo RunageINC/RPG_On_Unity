@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace RPG.Commons
 {
+    [RequireComponent(typeof(StatusPoints))]
     public class Target : MonoBehaviour
     {
         // Start is called before the first frame update
