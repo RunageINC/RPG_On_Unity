@@ -4,12 +4,22 @@ namespace RPG.Commons
 {
     public class Combat : MonoBehaviour, Action
     {
-        [SerializeField] float weaponRange = 2f;
         [SerializeField] float attackSpeed = 1f;
 
-        StatusPoints target;
-        float attackCooldown = 0;
+        [SerializeField] Transform handTransform = null;
 
+        [SerializeField] Weapon defaultWeapon = null;
+
+        StatusPoints target;
+        
+        float attackCooldown = Mathf.Infinity;
+
+        Weapon currentWeapon = null;
+
+        void Start()
+        {
+            EquipWeapon(defaultWeapon);
+        }
         // Update is called once per frame
         void Update()
         {
@@ -20,13 +30,22 @@ namespace RPG.Commons
 
             if (!IsInRange())
             {
-                GetComponent<Mover>().StartMoving(target.transform.position);
+                GetComponent<Mover>().MoveToLocation(target.transform.position);
             } 
             else
             {
                 GetComponent<Mover>().CancelAction();
                 AttackAction();
             }
+        }
+
+        public void EquipWeapon(Weapon weapon)
+        {
+            currentWeapon = weapon;
+
+            Animator animator = GetComponent<Animator>();
+
+            weapon.Spawn(handTransform, animator);
         }
 
         private void AttackAction() 
@@ -52,27 +71,29 @@ namespace RPG.Commons
             
             StatusPoints attacker = this.GetComponent<StatusPoints>();
 
-            target.TakeDamage(attacker.strength);
-        }
-
-        public void Attack(Target combatTarget)
-        {
-            GetComponent<ActionScheduler>().StartAction(this);
-            target = combatTarget.GetComponent<StatusPoints>();
+            float fullDamage = attacker.strength + currentWeapon.GetDamage();
+            target.TakeDamage(fullDamage);            
         }
 
         private bool IsInRange()
         {
-            return Vector3.Distance(transform.position, target.transform.position) < weaponRange;
+            return Vector3.Distance(transform.position, target.transform.position) < currentWeapon.GetRange();
         }
 
-        public bool CanAttack(Target combatTarget)
+
+        public bool CanAttack(GameObject combatTarget)
         {
             if (combatTarget == null) return false;
 
-            StatusPoints target = combatTarget.GetComponent<StatusPoints>();
+            StatusPoints targetToAttack = combatTarget.GetComponent<StatusPoints>();
 
-            return combatTarget != null && !target.IsDead();
+            return targetToAttack != null && !targetToAttack.IsDead();
+        }
+
+        public void Attack(GameObject combatTarget)
+        {
+            GetComponent<ActionScheduler>().StartAction(this);
+            target = combatTarget.GetComponent<StatusPoints>();
         }
 
         public void CancelAction()

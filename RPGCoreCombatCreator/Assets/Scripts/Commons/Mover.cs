@@ -10,15 +10,17 @@ namespace RPG.Commons
         [SerializeField] Transform target;
 
         NavMeshAgent navMeshAgent;
-
-
+        StatusPoints statusPoints;
+        
         private void Start()
         {
             navMeshAgent = GetComponent<NavMeshAgent>();
+            statusPoints = GetComponent<StatusPoints>();
         }
 
         void Update()
         {
+            navMeshAgent.enabled = !statusPoints.IsDead();
             UpdateAnimator();
         }
 

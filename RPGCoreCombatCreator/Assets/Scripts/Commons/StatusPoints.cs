@@ -20,10 +20,7 @@ namespace RPG.Commons {
         {
             float damageCalc = Mathf.Max(damage - defense, 0);
             hp = Mathf.Max(hp - damageCalc, 0);
-
-            print("Damage received: " + damageCalc);
-            print("Curr HP: " + hp);
-
+            
             if (hp == 0) 
             {
                 Die();
@@ -41,6 +38,7 @@ namespace RPG.Commons {
 
             isDead = true;
             GetComponent<Animator>().SetTrigger("dead");
+            GetComponent<ActionScheduler>().CancelCurrentAction();
         }
 
         void Start()

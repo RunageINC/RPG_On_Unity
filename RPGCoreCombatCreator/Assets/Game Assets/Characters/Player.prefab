@@ -2320,7 +2320,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 274871541, guid: 0ab133b0867a51845882d675e4ea1b48, type: 3}
       propertyPath: strength
-      value: 50
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 1630041811824674654, guid: 0ab133b0867a51845882d675e4ea1b48, type: 3}
       propertyPath: m_RootOrder
@@ -2366,8 +2366,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2270891224397673194, guid: 0ab133b0867a51845882d675e4ea1b48, type: 3}
+      propertyPath: defaultWeapon
+      value: 
+      objectReference: {fileID: 11400000, guid: 96ae5cc7efae846178174b68f5bf0e9e, type: 2}
+    - target: {fileID: 2270891224397673194, guid: 0ab133b0867a51845882d675e4ea1b48, type: 3}
+      propertyPath: handTransform
+      value: 
+      objectReference: {fileID: 3430910279767999108}
     - target: {fileID: 8330835492133066716, guid: 0ab133b0867a51845882d675e4ea1b48, type: 3}
       propertyPath: m_Name
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 8330835492133066716, guid: 0ab133b0867a51845882d675e4ea1b48, type: 3}
+      propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
     m_RemovedComponents: []

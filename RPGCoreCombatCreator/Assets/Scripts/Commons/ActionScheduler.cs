@@ -17,5 +17,10 @@ namespace RPG.Commons
 
             currentAction = action;
         }
+
+        public void CancelCurrentAction()
+        {
+            StartAction(null);
+        }
     }
 }

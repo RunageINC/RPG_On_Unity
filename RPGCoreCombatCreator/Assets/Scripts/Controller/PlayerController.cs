@@ -6,8 +6,16 @@ namespace RPG.Controller
 {
     public class PlayerController : MonoBehaviour
     {
+        StatusPoints playerStatusPoints;
+
+        private void Start() 
+        {
+            playerStatusPoints = GetComponent<StatusPoints>();
+        }
         private void Update()
         {
+            if (playerStatusPoints.IsDead()) return;
+             
             if (InteractWithCombat()) return;
             if (InteractWithMovement()) return;
         }
@@ -20,11 +28,13 @@ namespace RPG.Controller
             {
                 Target target = hit.transform.GetComponent<Target>();
 
-                if (!GetComponent<Combat>().CanAttack(target)) continue;
+                if (target == null) continue;
 
-                if (Input.GetMouseButtonDown(0))
+                if (!GetComponent<Combat>().CanAttack(target.gameObject)) continue;
+
+                if (Input.GetMouseButton(0))
                 {
-                    GetComponent<Combat>().Attack(target);   
+                    GetComponent<Combat>().Attack(target.gameObject);   
                 }
 
                 return true;
@@ -43,7 +53,7 @@ namespace RPG.Controller
             {
                 if (Input.GetMouseButton(0))
                 {
-                    GetComponent<Mover>().MoveToLocation(hit.point);
+                    GetComponent<Mover>().StartMoving(hit.point);
                 }
 
                 return true;
